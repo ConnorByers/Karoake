@@ -1,0 +1,4 @@
+venv
+music/split/*
+music/upload/*
+pretrained_models

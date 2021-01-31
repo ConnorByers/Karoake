@@ -15,8 +15,12 @@ from utils import (
     allowed_file
 )
 from werkzeug.utils import secure_filename
+
+from spleeter.separator import Separator
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+separator = Separator('spleeter:2stems')
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -34,8 +38,8 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            separator.separate_to_file((os.path.join(app.config['UPLOAD_FOLDER'], filename)), (os.path.join('./music/split/', filename)))
+            return render_template('hello.html', name='Connor')
     return render_template('hello.html', name='Connor')
 
 @app.route('/uploads/<filename>')

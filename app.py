@@ -15,7 +15,7 @@ from utils import (
     allowed_file
 )
 from werkzeug.utils import secure_filename
-
+from pydub import AudioSegment
 from spleeter.separator import Separator
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -38,7 +38,12 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            separator.separate_to_file((os.path.join(app.config['UPLOAD_FOLDER'], filename)), (os.path.join('./music/split/', filename)))
+            separator.separate_to_file((os.path.join(app.config['UPLOAD_FOLDER'], filename)), './music/split/')
+            filename = filename.replace('.mp3', '')
+            sound1 = AudioSegment.from_file(os.path.join('./music/split/', filename, 'accompaniment.wav'), format="wav")
+            sound2 = AudioSegment.from_file('./vocals.wav', format="wav")
+            overlay = sound1.overlay(sound2, position=0)
+            file_handle = overlay.export("output.mp3", format="mp3")
             return render_template('hello.html', name='Connor')
     return render_template('hello.html', name='Connor')
 

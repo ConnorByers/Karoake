@@ -4,3 +4,4 @@ music/upload/*
 pretrained_models
 output.mp3
 vocals.wav
+__pycache__

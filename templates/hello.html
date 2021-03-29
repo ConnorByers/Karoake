@@ -2,4 +2,7 @@
 <form method=post enctype=multipart/form-data>
     <input type=file name=file>
     <input type=submit value=Upload>
-  </form>
+</form>
+<p>After</p>
+<p>{{ url_for('static', filename='output.mp3') }}</p>
+<audio id="song" src="{{ url_for('static', filename='output.mp3') }}" controls></audio>

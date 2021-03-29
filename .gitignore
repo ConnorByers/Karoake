@@ -1,6 +1,7 @@
 venv
 music/split/*
 music/upload/*
+music/merged/*
 pretrained_models
 output.mp3
 vocals.wav

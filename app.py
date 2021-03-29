@@ -83,14 +83,14 @@ def upload_track():
 def upload_voice(instrumental_id):
     file = request.files['file']
     filename = str(uuid.uuid4())
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename + '.wav'))
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename + '.webm'))
     sound1 = AudioSegment.from_file(os.path.join('./music/split/', instrumental_id, 'accompaniment.wav'), format="wav")
-    sound2 = AudioSegment.from_file(os.path.join(app.config['UPLOAD_FOLDER'], filename + '.wav'), format="wav")
+    sound2 = AudioSegment.from_file(os.path.join(app.config['UPLOAD_FOLDER'], filename + '.webm'), format="webm")
     overlay = sound1.overlay(sound2, position=0)
     merged_name = instrumental_id + '.mp3'
-    file_handle = overlay.export(os.path.join("./merged/", merged_name), format="mp3")
+    file_handle = overlay.export(os.path.join("./music/merged/", merged_name), format="mp3")
     return send_file(
-        os.path.join("./merged/", merged_name), 
+        os.path.join("./music/merged/", merged_name), 
         mimetype="audio/mpeg",
         as_attachment=True, 
         attachment_filename="output.mp3")

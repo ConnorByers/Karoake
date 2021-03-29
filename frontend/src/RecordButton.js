@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-
+import MediaStreamRecorder from 'msr';
 function RecordButton({instrumentalId}) {
   const [recordingState, setRecordingState] = useState({
     hasMicAccess: null,

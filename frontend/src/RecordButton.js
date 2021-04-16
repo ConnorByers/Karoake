@@ -1,15 +1,15 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import MediaStreamRecorder from 'msr';
-function RecordButton({instrumentalId}) {
+import { useAsync } from 'react-async';
+import AudioPlayer from 'react-h5-audio-player';
+
+function RecordButton({instrumentalId, setCombinedUrl}) {
   const [recordingState, setRecordingState] = useState({
     hasMicAccess: null,
     isRecording: false,
     currentRecordingBlob: null,
     currentRecordingURL: null,
   });
-
-  const [combinedUrl, setCombinedUrl] = useState(false);
 
   const [recorder, setRecorder] = useState(false);
 
@@ -73,18 +73,25 @@ function RecordButton({instrumentalId}) {
 
   return <>
     <div>
-      <button
+      <a
         onClick={recordingState.isRecording ? stopRecording : startRecording}
+        className={recordingState.isRecording ? 'stopbutton' : 'recordbutton'}
       >
         {recordingState.isRecording ? 'Stop' : 'Record'}
-      </button>
-      {recordingState.currentRecordingURL && <audio controls src={recordingState.currentRecordingURL}/>}
-      <button
+      </a>
+      {recordingState.currentRecordingURL && <AudioPlayer
+        src={recordingState.currentRecordingURL}
+        showJumpControls={false}
+        layout="horizontal-reverse"
+        customVolumeControls={[]}
+        customAdditionalControls={[]}
+      />}
+      <a
+        className="uploadbutton"
         onClick={onSubmit}
       >
         Submit
-      </button>
-      {combinedUrl && <audio controls src={combinedUrl} />}
+      </a>
     </div>
   </>
 

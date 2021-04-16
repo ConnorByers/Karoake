@@ -1,18 +1,21 @@
 import React, {useState} from 'react'
 import axios from 'axios';
+
 export default function UploadTrack(props) {
-    const [uploadedTrack, setTrack] = useState(false);
     const [instrumentalURL, setInstrumentalURL] = useState(false);
-    const onUpload = (e) => {
-        setTrack(e.target.files[0]);
-        console.log(uploadedTrack);
+   
+    const hiddenFileInput = React.useRef(null);
+  
+    const handleFileClick = event => {
+        hiddenFileInput.current.click();
     };
 
-    const onSubmit = (e) => {
-        //console.log(uploadedTrack);
+    const handlFileChange = async (event) => {
+        const fileUploaded = event.target.files[0];
+        
         let formData = new FormData();
 
-        const blob = new Blob([uploadedTrack], {type: 'audio/mpeg'});
+        const blob = new Blob([fileUploaded], {type: 'audio/mpeg'});
 
 		formData.append('customFile', blob);
 
@@ -27,15 +30,25 @@ export default function UploadTrack(props) {
         .catch((error) => {
             console.error('Error:', error);
         });
-    }
+    };
 
     return (
         <div>
-            <input type="file" name="file" onChange={onUpload} />
-            <button onClick={onSubmit}>Upload</button>
-            {instrumentalURL && 
-                <audio controls src={instrumentalURL} />
-            }
+            <a
+                onClick={handleFileClick}
+                target="_blank"
+                rel="noopener"
+                className="uploadbutton"
+            >
+                Select Your Track
+            </a>
+            <input
+                type="file"
+                name="file"
+                ref={hiddenFileInput}
+                onChange={handlFileChange}
+                style={{display:'none'}} 
+            /> 
         </div>
     )
 }

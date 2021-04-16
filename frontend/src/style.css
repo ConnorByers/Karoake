@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html, body {
+    background-color: #66B4AE;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+}
+
+.uploadbutton {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  width: 15rem;
+  background: #ECDDBF;
+  color: black;
+  border: 2px solid #676960;
+  cursor: pointer;
+  text-align: center;  
+}
+
+.uploadbutton:hover {
+    background: #beaf90;
+}
+
+.stopbutton {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  width: 15rem;
+  background: #ce462b;
+  color: black;
+  border: 2px solid #676960;
+  cursor: pointer;
+  text-align: center;  
+}
+
+.stopbutton:hover {
+    background: #b33f28;
+}
+
+.recordbutton {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  width: 15rem;
+  background: #21c745;
+  color: black;
+  border: 2px solid #676960;
+  cursor: pointer;
+  text-align: center;  
+}
+
+.recordbutton:hover {
+    background: #1a9c36;
+}

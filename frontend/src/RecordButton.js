@@ -4,14 +4,13 @@ import { useAsync } from 'react-async';
 import Loader from "react-loader-spinner";
 import AudioPlayer from 'react-h5-audio-player';
 
-function RecordButton({instrumentalId, setCombinedUrl}) {
+function RecordButton({instrumentalId, setCombinedUrl, setError}) {
   const [recordingState, setRecordingState] = useState({
     hasMicAccess: null,
     isRecording: false,
     currentRecordingBlob: null,
     currentRecordingURL: null,
   });
-  const [isLoading, setLoading] = useState(false);
 
   const [recorder, setRecorder] = useState(false);
 
@@ -59,25 +58,25 @@ function RecordButton({instrumentalId, setCombinedUrl}) {
   }
 
   const onSubmit = async () => {
-    setLoading(true);
     let formData = new FormData();
-    console.log(recordingState.currentRecordingBlob);
 		formData.append('file', recordingState.currentRecordingBlob);
 
-    axios.post(`http://127.0.0.1:5000/upload_voice/${instrumentalId}`, formData, {responseType: 'blob'})
+    return axios.post(`http://127.0.0.1:5000/upload_voice/${instrumentalId}`, formData, {responseType: 'blob'})
       .then((result) => {
           const url = URL.createObjectURL(result.data);
           setCombinedUrl(url);
+          return true;
       })
       .catch((error) => {
-          console.error('Error:', error);
+          setError(true);
+          throw true;
       });
   }
 
-  const { data, error, run } = useAsync({ deferFn: onSubmit })
+  const { data, error, run, isPending } = useAsync({ deferFn: onSubmit })
 
   return <>
-    {isLoading ?
+    {isPending ?
       <>
         <Loader
             type="Puff"
@@ -91,7 +90,7 @@ function RecordButton({instrumentalId, setCombinedUrl}) {
       </> :
       <div>
         <p className="instructions">
-            Upload the mp3 of the song you want to sing over
+            Play the music in your ear and record yourself singing along to it
         </p>
         <div className="line"></div>
         <div className="buttonwrapper">

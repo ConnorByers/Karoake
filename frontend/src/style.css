@@ -119,3 +119,14 @@ html, body {
 .rhap_progress-filled {
   background-color: #fff;
 }
+
+.error_page_text {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.errormessage {
+  color: red;
+  font-size: 1.2rem;
+  text-align: center;
+}

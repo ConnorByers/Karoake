@@ -4,35 +4,37 @@ import Loader from "react-loader-spinner";
 import axios from 'axios';
 
 export default function UploadTrack(props) {
-    const [instrumentalURL, setInstrumentalURL] = useState(false);
-    const [isLoading, setLoading] = useState(false);
+    const [invalidInputType, setInvalidInputType] = useState(false);
     const handleFileChange = async ([event]) => {
-        console.log('here');
-        setLoading(true);
         const fileUploaded = event.target.files[0];
-        
+
+        if (fileUploaded.type !== 'audio/mpeg') {
+            setInvalidInputType(true);
+
+            return Promise.resolve(true);
+        } else {
+            setInvalidInputType(false);
+        }
+
         let formData = new FormData();
 
         const blob = new Blob([fileUploaded], {type: 'audio/mpeg'});
 
 		formData.append('customFile', blob);
-
-        axios.post('http://127.0.0.1:5000/upload_track', formData, {responseType: 'blob'})
+        
+        return axios.post('http://127.0.0.1:5000/upload_track', formData)
         .then((result) => {
-            console.log(result.headers);
-            //const audioBlob = new Blob([result.data], {type: 'audio/wav'});
-            const url = URL.createObjectURL(result.data);
-            setInstrumentalURL(url);
-            props.setinstrumentalId(result.headers['file_name']);
-            return { success: 'True'};
+            props.setInstrumentalId(result.headers['file_name']);
+            return true;
         })
         .catch((error) => {
-            console.error('Error:', error);
-            return { success: 'False'};
+            props.setError(true);
+            throw true;
         });
+    
     };
 
-    const { data, error, run } = useAsync({ deferFn: handleFileChange })
+    const { data, error, run, isPending } = useAsync({ deferFn: handleFileChange })
    
     const hiddenFileInput = React.useRef(null);
   
@@ -42,7 +44,7 @@ export default function UploadTrack(props) {
 
     return (
         <div>
-        {isLoading ? <>
+        {isPending ? <>
             <Loader
                 type="Puff"
                 color="#FFFFFF"
@@ -58,6 +60,11 @@ export default function UploadTrack(props) {
                 <p className="instructions">
                     Upload the mp3 of the song you want to sing over
                 </p>
+                {invalidInputType &&
+                    <p className="errormessage">
+                        Invalid File Type. Upload a .mp3
+                    </p>
+                }
                 <div className="line"></div>
                 <div className="buttonwrapper">
                     <a

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useAsync } from 'react-async';
+import Loader from "react-loader-spinner";
 import AudioPlayer from 'react-h5-audio-player';
 
 function RecordButton({instrumentalId, setCombinedUrl}) {
@@ -10,6 +11,7 @@ function RecordButton({instrumentalId, setCombinedUrl}) {
     currentRecordingBlob: null,
     currentRecordingURL: null,
   });
+  const [isLoading, setLoading] = useState(false);
 
   const [recorder, setRecorder] = useState(false);
 
@@ -57,6 +59,7 @@ function RecordButton({instrumentalId, setCombinedUrl}) {
   }
 
   const onSubmit = async () => {
+    setLoading(true);
     let formData = new FormData();
     console.log(recordingState.currentRecordingBlob);
 		formData.append('file', recordingState.currentRecordingBlob);
@@ -71,28 +74,49 @@ function RecordButton({instrumentalId, setCombinedUrl}) {
       });
   }
 
+  const { data, error, run } = useAsync({ deferFn: onSubmit })
+
   return <>
-    <div>
-      <a
-        onClick={recordingState.isRecording ? stopRecording : startRecording}
-        className={recordingState.isRecording ? 'stopbutton' : 'recordbutton'}
-      >
-        {recordingState.isRecording ? 'Stop' : 'Record'}
-      </a>
-      {recordingState.currentRecordingURL && <AudioPlayer
-        src={recordingState.currentRecordingURL}
-        showJumpControls={false}
-        layout="horizontal-reverse"
-        customVolumeControls={[]}
-        customAdditionalControls={[]}
-      />}
-      <a
-        className="uploadbutton"
-        onClick={onSubmit}
-      >
-        Submit
-      </a>
-    </div>
+    {isLoading ?
+      <>
+        <Loader
+            type="Puff"
+            color="#FFFFFF"
+            height={150}
+            width={150}
+        />
+        <p className="loadingText">
+            Uploading...
+        </p>
+      </> :
+      <div>
+        <p className="instructions">
+            Upload the mp3 of the song you want to sing over
+        </p>
+        <div className="line"></div>
+        <div className="buttonwrapper">
+        <a
+          onClick={recordingState.isRecording ? stopRecording : startRecording}
+          className={recordingState.isRecording ? 'stopbutton' : 'recordbutton'}
+        >
+          {recordingState.isRecording ? 'Stop' : 'Record'}
+        </a>
+        {recordingState.currentRecordingURL && <AudioPlayer
+          src={recordingState.currentRecordingURL}
+          showJumpControls={false}
+          layout="horizontal-reverse"
+          customVolumeControls={[]}
+          customAdditionalControls={[]}
+        />}
+        <a
+          className="uploadbutton"
+          onClick={run}
+        >
+          Submit
+        </a>
+        </div>
+      </div>
+    }
   </>
 
 }

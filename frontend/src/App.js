@@ -1,9 +1,10 @@
 import RecordButton from './RecordButton';
 import UploadTrack from './UploadTrack';
+import ResultPage from './ResultPage';
+import AudioPlayer from 'react-h5-audio-player';
 import React, { useState } from 'react';
 import 'react-h5-audio-player/lib/styles.css';
 import './style.css';
-import './custom.css';
 
 function App() {
   const [instrumentalId, setinstrumentalId] = useState(false);
@@ -12,7 +13,7 @@ function App() {
     <div className="container">
       {!instrumentalId && <UploadTrack setinstrumentalId={setinstrumentalId} />}
       {(instrumentalId && !combinedUrl) && <RecordButton instrumentalId={instrumentalId} setCombinedUrl={setCombinedUrl} />}
-      {combinedUrl && <audio controls src={combinedUrl} />}
+      {combinedUrl && <ResultPage combinedUrl={combinedUrl} />}
     </div>
   );
 }

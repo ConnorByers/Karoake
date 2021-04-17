@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 html, body {
-    background-color: #66B4AE;
-    font-family: 'Roboto', sans-serif;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+  background-color: #66B4AE;
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
 }
 
 .uploadbutton {
@@ -32,7 +32,7 @@ html, body {
 }
 
 .uploadbutton:hover {
-    background: #beaf90;
+  background: #beaf90;
 }
 
 .stopbutton {
@@ -45,11 +45,11 @@ html, body {
   color: black;
   border: 2px solid #676960;
   cursor: pointer;
-  text-align: center;  
+  text-align: center; 
 }
 
 .stopbutton:hover {
-    background: #b33f28;
+  background: #b33f28;
 }
 
 .recordbutton {
@@ -66,5 +66,56 @@ html, body {
 }
 
 .recordbutton:hover {
-    background: #1a9c36;
+  background: #1a9c36;
+}
+
+.audioplayercontainer {
+  width: 90%;
+  margin: auto;
+}
+
+.instructions {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #25292c;
+  margin-bottom: 2rem;
+}
+
+.buttonwrapper {
+  margin: auto;
+  text-align: center;
+}
+
+.line {
+  width: 80%;
+  height: 1rem;
+  margin: 1rem auto;
+  padding: 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid black;
+}
+
+.loadingText {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #fff;
+}
+
+.rhap_container {
+  background-color: #4bd1c7;
+  outline: none;
+  border: none;
+  border-radius: 6px;
+}
+
+.rhap_main-controls-button {
+  color: #fff;
+}
+
+.rhap_progress-indicator {
+  background: #fff;
+}
+
+.rhap_progress-filled {
+  background-color: #fff;
 }

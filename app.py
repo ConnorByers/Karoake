@@ -16,13 +16,9 @@ from flask import (
 from consts import (
     UPLOAD_FOLDER
 )
-from utils import (
-    allowed_file
-)
 from flask_cors import CORS, cross_origin
 import uuid
 import logging
-from werkzeug.utils import secure_filename
 from pydub import AudioSegment
 from spleeter.separator import Separator
 app = Flask(__name__)
@@ -40,19 +36,22 @@ separator = Separator('spleeter:2stems')
 @app.route('/upload_track', methods=['POST'])
 @cross_origin()
 def upload_track():
+    ''' Given a mp3 file, save it with a uuid as the file name and use spleeter to get the vocals and instrumental.
+        Responds with the unique filename.
+    '''
     file = request.files['customFile']
     if file.mimetype != 'audio/mpeg':
         abort(400)
     filename = str(uuid.uuid4())
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename + '.mp3'))
     separator.separate_to_file((os.path.join(app.config['UPLOAD_FOLDER'], filename + '.mp3')), './music/split/')
-    response = make_response('success')
-    response.headers['file_name'] = filename
-    return response
+    return filename
 
 @app.route('/upload_voice/<instrumental_id>', methods=['POST'])
 @cross_origin()
 def upload_voice(instrumental_id):
+    ''' Given a vocal and the filename from uploading the track, respond with the vocals merged with instrumental
+    '''
     file = request.files['file']
     filename = str(uuid.uuid4())
     if file.mimetype != 'audio/webm':

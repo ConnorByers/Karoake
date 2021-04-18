@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useAsync } from 'react-async';
 import Loader from "react-loader-spinner";
 import axios from 'axios';
+import { RESTAPI_URL } from './config';
 
 export default function UploadTrack(props) {
     const [invalidInputType, setInvalidInputType] = useState(false);
@@ -22,9 +23,9 @@ export default function UploadTrack(props) {
 
 		formData.append('customFile', blob);
         
-        return axios.post('http://127.0.0.1:5000/upload_track', formData)
+        return axios.post(`${RESTAPI_URL}/upload_track`, formData)
         .then((result) => {
-            props.setInstrumentalId(result.headers['file_name']);
+            props.setInstrumentalId(result.data);
             return true;
         })
         .catch((error) => {

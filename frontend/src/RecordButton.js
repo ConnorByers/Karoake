@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAsync } from 'react-async';
 import Loader from "react-loader-spinner";
 import AudioPlayer from 'react-h5-audio-player';
+import { RESTAPI_URL } from './config';
 
 function RecordButton({instrumentalId, setCombinedUrl, setError}) {
   const [recordingState, setRecordingState] = useState({
@@ -61,7 +62,7 @@ function RecordButton({instrumentalId, setCombinedUrl, setError}) {
     let formData = new FormData();
 		formData.append('file', recordingState.currentRecordingBlob);
 
-    return axios.post(`http://127.0.0.1:5000/upload_voice/${instrumentalId}`, formData, {responseType: 'blob'})
+    return axios.post(`${RESTAPI_URL}/upload_voice/${instrumentalId}`, formData, {responseType: 'blob'})
       .then((result) => {
           const url = URL.createObjectURL(result.data);
           setCombinedUrl(url);

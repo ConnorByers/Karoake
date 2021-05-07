@@ -62,7 +62,7 @@ function RecordButton({instrumentalId, setCombinedUrl, setError}) {
     let formData = new FormData();
 		formData.append('file', recordingState.currentRecordingBlob);
 
-    return axios.post(`${RESTAPI_URL}/upload_voice/${instrumentalId}`, formData, {responseType: 'blob'})
+    return axios.post(`${RESTAPI_URL}/api/upload_voice/${instrumentalId}`, formData, {responseType: 'blob'})
       .then((result) => {
           const url = URL.createObjectURL(result.data);
           setCombinedUrl(url);

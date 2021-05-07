@@ -33,7 +33,7 @@ logging.basicConfig(level=logging.INFO)
 
 separator = Separator('spleeter:2stems')
 
-@app.route('/upload_track', methods=['POST'])
+@app.route('/api/upload_track', methods=['POST'])
 @cross_origin()
 def upload_track():
     ''' Given a mp3 file, save it with a uuid as the file name and use spleeter to get the vocals and instrumental.
@@ -47,7 +47,7 @@ def upload_track():
     separator.separate_to_file((os.path.join(app.config['UPLOAD_FOLDER'], filename + '.mp3')), './music/split/')
     return filename
 
-@app.route('/upload_voice/<instrumental_id>', methods=['POST'])
+@app.route('/api/upload_voice/<instrumental_id>', methods=['POST'])
 @cross_origin()
 def upload_voice(instrumental_id):
     ''' Given a vocal and the filename from uploading the track, respond with the vocals merged with instrumental

@@ -23,7 +23,7 @@ export default function UploadTrack(props) {
 
 		formData.append('customFile', blob);
         
-        return axios.post(`${RESTAPI_URL}/upload_track`, formData)
+        return axios.post(`${RESTAPI_URL}/api/upload_track`, formData)
         .then((result) => {
             props.setInstrumentalId(result.data);
             return true;
